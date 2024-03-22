@@ -1,0 +1,1 @@
+export { AOSInit } from './aos';

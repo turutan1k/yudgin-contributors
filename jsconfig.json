@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "commonjs",
+    "target": "es2016",
+    "jsx": "react",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@assets/*": ["app/assets/*"],
+      "@components": ["app/_components"],
+      "@components/*": ["app/_components/*"],
+      "@hooks": ["app/hooks"],
+      "@hooks/*": ["app/hooks/*"],
+      "@utils": ["app/_utils"],
+      "@utils/*": ["app/_utils/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*", ".next"]
+}
