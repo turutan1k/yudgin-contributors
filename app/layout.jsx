@@ -5,8 +5,6 @@ import { AOSInit } from '@utils';
 import { headers } from 'next/headers';
 import React from 'react';
 
-import { Footer, Header } from './_components';
-
 export const revalidate = 0;
 
 const META_BASE = {
@@ -108,12 +106,10 @@ export const generateMetadata = () => {
 export const RootLayout = async ({ children }) => (
   <html lang="ru" className={lato.className}>
     <AOSInit />
-    <body className="h-[100vh]">
-      <Header />
-      <main className="h-full w-full bg-[#848d97] py-[12rem] md:py-[10rem] sm:py-[8rem]">
+    <body className="min-h-[100vh] bg-[#848d97]">
+      <main className="h-full w-full py-[12rem] md:py-[10rem] sm:py-[8rem]">
         {children}
       </main>
-      <Footer />
     </body>
   </html>
 );

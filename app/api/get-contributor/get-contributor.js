@@ -1,14 +1,11 @@
-export const fetchContributors = token =>
+export const fetchContributor = ({ token, login }) =>
   new Promise((resolve, reject) => {
-    fetch(
-      'https://api.github.com/repos/microsoft/generative-ai-for-beginners/contributors',
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `${token}`,
-        },
+    fetch(`https://api.github.com/users/${login}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `${token}`,
       },
-    )
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch contributors');
