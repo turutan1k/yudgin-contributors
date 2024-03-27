@@ -2,10 +2,10 @@ export const fetchContributors = () =>
   new Promise((resolve, reject) => {
     fetch(
       `${process.env.NEXT_PUBLIC_STATIC_URL}/repos/microsoft/generative-ai-for-beginners/contributors`,
-      process.env.GITHUB_TOKEN && {
+      process.env.NEXT_PUBLIC_GITHUB_TOKEN && {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
         },
       },
     )

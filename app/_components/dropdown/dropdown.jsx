@@ -1,40 +1,51 @@
 import { fetchContributor } from '@app/api';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 import { DropdownItem } from './dropdown-item';
 
 export const DropdownList = ({ data }) => {
-  const [id, setId] = useState();
-  const [login, setLogin] = useState();
+  const [selectedId, setSelectedId] = useState();
   const [isOpen, setIsOpen] = useState(false);
-  const [contributor, setContributor] = useState([]);
-  const toggleOpen = useCallback(
-    openId => {
-      setIsOpen(previousId => (previousId === openId ? undefined : openId));
-    },
-    [setId],
-  );
+  const [contributors, setContributors] = useState({});
+  console.log(contributors);
   useEffect(() => {
-    if (login && id) {
-      fetchContributor({ login })
-        .then(c => {
-          setContributor(c);
-        })
-        .then(() => {
-          toggleOpen(id);
+    if (selectedId && !contributors[selectedId]) {
+      fetchContributor({
+        login: data.find(item => item.id === selectedId).login,
+      })
+        .then(contributor => {
+          setContributors(previousState => ({
+            ...previousState,
+            [selectedId]: contributor,
+          }));
         })
         .catch(error => {
           console.error('Error fetching contributor:', error);
         });
     }
-  }, [login, id]);
-
+  }, [selectedId, contributors, data]);
+  useLayoutEffect(() => {
+    if (contributors[selectedId]) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [contributors, selectedId]);
   const handleClick = useCallback(
     item => {
-      setId(item?.id);
-      setLogin(item?.login);
+      if (selectedId === item.id) {
+        setSelectedId();
+        setIsOpen(false);
+      } else {
+        setSelectedId(item.id);
+      }
     },
-    [toggleOpen],
+    [selectedId],
   );
 
   return (
@@ -45,12 +56,12 @@ export const DropdownList = ({ data }) => {
           data={{
             link: item.html_url,
             image: item.avatar_url,
-            name: contributor?.name,
-            login: item?.login,
-            contributions: item?.contributions,
-            email: contributor?.email,
+            name: contributors[item.id] ? contributors[item.id].name : '',
+            login: item.login,
+            contributions: item.contributions,
+            email: contributors[item.id] ? contributors[item.id].email : '',
           }}
-          isOpen={id === item.id}
+          isOpen={selectedId === item.id && isOpen}
           onClick={() => handleClick(item)}
         />
       ))}

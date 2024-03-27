@@ -2,10 +2,10 @@ export const fetchContributor = ({ login }) =>
   new Promise((resolve, reject) => {
     fetch(
       `${process.env.NEXT_PUBLIC_STATIC_URL}/users/${login}`,
-      process.env.GITHUB_TOKEN && {
+      process.env.NEXT_PUBLIC_GITHUB_TOKEN && {
         method: 'GET',
         headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
         },
       },
     )
